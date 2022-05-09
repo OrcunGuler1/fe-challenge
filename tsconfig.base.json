@@ -15,6 +15,11 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@magiclick/button": ["libs/button/src/index.ts"],
+      "@magiclick/dropdown": ["libs/dropdown/src/index.ts"],
+      "@magiclick/header": ["libs/header/src/index.ts"],
+      "@magiclick/input": ["libs/input/src/index.ts"],
+      "@magiclick/title": ["libs/title/src/index.ts"],
       "@magiclick/utils/*": ["libs/utils/src/*"]
     }
   },

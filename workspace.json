@@ -1,7 +1,13 @@
 {
   "version": 2,
   "projects": {
-    "server": "apps/server",
-    "utils": "libs/utils"
+    "button": "libs/button",
+    "dropdown": "libs/dropdown",
+    "header": "libs/header",
+    "input": "libs/input",
+    "title": "libs/title",
+    "utils": "libs/utils",
+    "web": "apps/web",
+    "web-e2e": "apps/web-e2e"
   }
 }

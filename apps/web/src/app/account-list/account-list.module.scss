@@ -1,0 +1,19 @@
+.container {
+  max-width: 720px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 17px;
+}
+
+.span_2 {
+  grid-column: 1 / 3;
+}

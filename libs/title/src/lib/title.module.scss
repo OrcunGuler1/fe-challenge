@@ -1,0 +1,19 @@
+.title {
+  font-family: 'Montserrat';
+  color: #fa4616;
+  font-weight: 500;
+  font-size: 36px;
+}
+.desc {
+  font-size: 16px;
+  color: #000;
+  font-weight: 400;
+}
+.container {
+  top: calc(50% - 44px / 2 - 353px);
+  display: flex;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
