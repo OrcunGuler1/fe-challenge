@@ -1,14 +1,19 @@
-import './dropdown.module.scss';
+import './dropdown.module.scss'
 
 /* eslint-disable-next-line */
-export interface DropdownProps {}
-
-export function Dropdown(props: DropdownProps) {
-  return (
-    <div>
-      <h1>Welcome to Dropdown!</h1>
-    </div>
-  );
+export interface DropdownProps {
+  options: Array<{ label: string; value: string }>
 }
 
-export default Dropdown;
+export function Dropdown({ options }: DropdownProps) {
+  return (
+    <select defaultValue={'Seçiniz'}>
+      <option value="Seçiniz">Seçiniz</option>
+      {options.map(option => (
+        <option value={option.value}>{option.label}</option>
+      ))}
+    </select>
+  )
+}
+
+export default Dropdown

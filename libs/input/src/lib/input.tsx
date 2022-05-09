@@ -1,10 +1,18 @@
-import './input.module.scss';
-
+import './input.module.scss'
+import { useState } from 'react'
 /* eslint-disable-next-line */
-export interface InputProps {}
-
-export function Input(props: InputProps) {
-  return <input type="text" style={{ width: '100%' }} />;
+export interface InputProps {
+  onChange: (value: string) => void
 }
 
-export default Input;
+export function Input(props: InputProps) {
+  return (
+    <input
+      type="text"
+      style={{ width: '100%' }}
+      onChange={e => props.onChange(e.target.value)}
+    />
+  )
+}
+
+export default Input

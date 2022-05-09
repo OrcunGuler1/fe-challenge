@@ -5,6 +5,7 @@
     "dropdown": "libs/dropdown",
     "header": "libs/header",
     "input": "libs/input",
+    "server": "apps/server",
     "title": "libs/title",
     "utils": "libs/utils",
     "web": "apps/web",
