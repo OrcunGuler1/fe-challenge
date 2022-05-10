@@ -1,0 +1,16 @@
+.button {
+  min-height: 48px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  background-color: #fa4616;
+  border-radius: 12px;
+  padding: 0.5em;
+  border: none;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+    background-color: #fa4716a1;
+  }
+}

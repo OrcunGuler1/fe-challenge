@@ -1,21 +1,20 @@
-import './button.module.scss';
-
+import styles from './button.module.scss'
 /* eslint-disable-next-line */
 export interface ButtonProps {
-  children: React.ReactNode;
-  onClick: () => void;
-  className?: string;
-  disabled?: boolean;
-  type?: 'button' | 'submit' | 'reset';
-  [key: string]: any;
+  children?: React.ReactNode
+  onclick: () => void
+  disabled?: boolean
+  type?: 'button' | 'submit' | 'reset'
+  [key: string]: any
 }
 
-export function Button({ onclick, children }: ButtonProps) {
+export function Button({ onclick, children, type }: ButtonProps) {
+  console.log(onclick)
   return (
-    <button className="button" onClick={onclick}>
+    <button type={type} onClick={onclick} className={styles.button}>
       {children}
     </button>
-  );
+  )
 }
 
-export default Button;
+export default Button
