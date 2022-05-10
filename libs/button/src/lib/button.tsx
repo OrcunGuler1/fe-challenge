@@ -9,7 +9,6 @@ export interface ButtonProps {
 }
 
 export function Button({ onclick, children, type }: ButtonProps) {
-  console.log(onclick)
   return (
     <button type={type} onClick={onclick} className={styles.button}>
       {children}

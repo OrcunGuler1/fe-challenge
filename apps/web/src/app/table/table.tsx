@@ -23,6 +23,9 @@ enum CurrencySymbol {
 
 export function Table({ data, searchString, selectedCurrency }: TableProps) {
   const history = useHistory()
+  const handleCLick = (id: number) => {
+    history.push('/account/' + id + '')
+  }
   return (
     <table>
       <thead>
@@ -54,9 +57,7 @@ export function Table({ data, searchString, selectedCurrency }: TableProps) {
                 <tr
                   key={index}
                   className={styles.row}
-                  onClick={() => {
-                    history.push(`/account/${id}`)
-                  }}
+                  onClick={() => handleCLick(id)}
                 >
                   <td>{$enum(CurrencySymbol).getValueOrDefault(currency)}</td>
                   <td>{name}</td>
@@ -69,9 +70,7 @@ export function Table({ data, searchString, selectedCurrency }: TableProps) {
                 <tr
                   key={index}
                   className={styles.row}
-                  onClick={() => {
-                    history.push(`/account/${id}`)
-                  }}
+                  onClick={() => handleCLick(id)}
                 >
                   <td>{$enum(CurrencySymbol).getValueOrDefault(currency)}</td>
                   <td>{name}</td>

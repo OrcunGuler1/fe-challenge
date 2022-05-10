@@ -22,8 +22,13 @@ export function Modal({ isOpen, close, children, save, title }: ModalProps) {
           </button>
         </div>
         <div className={styles.modal_body}>{children}</div>
-        <div className={styles.footer}>
-          <Button onclick={() => save} />
+        <div className={styles.modal_footer}>
+          <Button onclick={() => save}>
+            <span>
+              <img src="./assets/aprove.svg" alt="approve" />
+            </span>
+            Kaydet
+          </Button>
         </div>
       </div>
     </div>
