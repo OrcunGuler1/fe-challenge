@@ -24,4 +24,13 @@ model Activity {
   amount      Float
   type        Int
   createdAt   DateTime
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+}
+
+model Category {
+  id         Int        @id @default(autoincrement())
+  type       String
+  createdAt  DateTime?  @default(now())
+  activities Activity[]
 }

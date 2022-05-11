@@ -6,7 +6,7 @@ import { configure } from 'axios-hooks'
 import { LRUCache } from 'typescript-lru-cache'
 import axios from 'axios'
 const cache = new LRUCache<string, string>({ maxSize: 100 })
-const Axios = axios.create({
+export const Axios = axios.create({
   baseURL: 'http://localhost:3333/api',
   headers: {
     'Access-Control-Allow-Origin': '*',

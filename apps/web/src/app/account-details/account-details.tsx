@@ -4,26 +4,18 @@ import { useHistory, useParams } from 'react-router-dom'
 import useAxios from 'axios-hooks'
 import { $enum } from 'ts-enum-util'
 import AccountActivity from '../account-activity/account-activity'
+import { getCurrency, getCurrencySign } from '@magiclick/utils/helpers/currency'
 /* eslint-disable-next-line */
 export interface AccountDetailsProps {}
 interface RouteParams {
   id: string
 }
-enum Currency {
-  'TRY' = 'Türk lirası',
-  'EUR' = 'Euro',
-  'USD' = 'Amerikan doları',
-  'GBP' = 'İngiliz Sterlini',
-}
-enum CurrencySymbol {
-  'TRY' = '₺',
-  'EUR' = '€',
-  'USD' = '$',
-  'GBP' = '£',
-}
+
 export function AccountDetails(props: AccountDetailsProps) {
   const { id } = useParams<RouteParams>()
   const [{ data, loading, error }, refetch] = useAxios('/account/' + id)
+  const [{ data: activityData }] = useAxios('/activity')
+
   const history = useHistory()
   const handleCLick = () => {
     history.push('/')
@@ -37,7 +29,7 @@ export function AccountDetails(props: AccountDetailsProps) {
           </span>
           Ana sayfa
         </Button>
-        <Button onclick={handleCLick}>
+        <Button onclick={() => console.log('asd')}>
           <span>
             <img src="/assets/cross.svg" alt="cross" />
           </span>
@@ -50,12 +42,26 @@ export function AccountDetails(props: AccountDetailsProps) {
           <p>{data?.name}</p>
           <span className={styles.account_info}>
             <p>{data?.accountNumber} - </p>
-            <p>{$enum(Currency).getValueOrDefault(data?.currency)}</p>
-            <p>({$enum(CurrencySymbol).getValueOrDefault(data?.currency)})</p>
+            <p>{getCurrency(data?.currency)?.label}</p>
+            <p>({getCurrency(data?.currency)?.sign})</p>
           </span>
         </div>
       </div>
-      <AccountActivity id={data?.id} />
+      <div className={styles.activity_header}>
+        <p>Hesap Hareketleri</p>
+        <p>
+          {activityData?.filter((activity: any) => {
+            if (activity.accountId === Number(id)) {
+              return activity
+            }
+          }).length + ' Sonuç'}
+        </p>
+      </div>
+      <AccountActivity
+        id={data?.id}
+        data={activityData}
+        currency={data?.currency}
+      />
     </div>
   )
 }

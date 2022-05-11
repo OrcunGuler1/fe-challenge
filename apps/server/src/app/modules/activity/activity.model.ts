@@ -1,22 +1,25 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Activity } from '@prisma/client';
+import { ApiProperty } from '@nestjs/swagger'
+import { Activity } from '@prisma/client'
 
 export class ActivityEntity implements Activity {
   @ApiProperty()
-  id: number;
+  id: number
 
   @ApiProperty()
-  accountId: number;
+  accountId: number
 
   @ApiProperty()
-  description: string;
+  description: string
 
   @ApiProperty()
-  amount: number;
+  amount: number
 
   @ApiProperty()
-  type: number;
+  type: number
 
   @ApiProperty()
-  createdAt: Date;
+  createdAt: Date
+
+  @ApiProperty()
+  categoryId: number;
 }

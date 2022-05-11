@@ -4,19 +4,32 @@ import { Input } from '@magiclick/input'
 import { Dropdown } from '@magiclick/dropdown'
 import Table from '../table/table'
 import useAxios from 'axios-hooks'
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import Modal from '../modal/modal'
-/* eslint-disable-next-line */
-export interface AccountListProps {}
+import { Axios as axios } from '../../main'
 
-export const AccountList = (props: AccountListProps) => {
-  const [{ data, loading, error }, refetch] = useAxios('/account')
+export const AccountList = () => {
+  const [{ data, loading }] = useAxios('/account')
   const [searchString, setSearchString] = useState('')
+  const [accounts, setAccounts] = useState(data)
   const [selectedCurrency, setSelectedCurrency] = useState('Seçiniz')
   const [accountName, setAccountName] = useState('')
   const [isOpen, setIsOpen] = useState(false)
-  const [accountCurrency, setAccounCurrency] = useState('Seçiniz')
-
+  const [accountCurrency, setAccountCurrency] = useState('Seçiniz')
+  useEffect(() => {
+    setAccounts(data)
+  }, [data])
+  const handleSave = () => {
+    axios
+      .post('/account', {
+        name: accountName,
+        currency: accountCurrency,
+      })
+      .then(data => {
+        setAccounts((prev: any) => [...prev, data.data])
+      })
+    setIsOpen(false)
+  }
   if (loading) return <div className={styles.container}>Loading...</div>
   return (
     <div className={styles.container}>
@@ -31,7 +44,7 @@ export const AccountList = (props: AccountListProps) => {
           </div>
           <div className={styles.header_component}>
             <p>Hesap Tipi </p>
-            <Dropdown options={data} onChange={setSelectedCurrency} />
+            <Dropdown options={accounts} onChange={setSelectedCurrency} />
           </div>
           <div className={styles.header_component}>
             <Button onclick={() => setIsOpen(prev => !prev)}>
@@ -43,7 +56,7 @@ export const AccountList = (props: AccountListProps) => {
           </div>
         </div>
         <Table
-          data={data}
+          data={accounts}
           searchString={searchString}
           selectedCurrency={selectedCurrency}
         />
@@ -52,6 +65,7 @@ export const AccountList = (props: AccountListProps) => {
         isOpen={isOpen}
         close={() => setIsOpen(prev => !prev)}
         title="Yeni Hesap Ekle"
+        save={() => handleSave()}
       >
         <div className={styles.add_account_modal}>
           <div>
@@ -67,7 +81,7 @@ export const AccountList = (props: AccountListProps) => {
                 { currency: 'USD' },
                 { currency: 'EUR' },
               ]}
-              onChange={setAccounCurrency}
+              onChange={setAccountCurrency}
             />
           </div>
         </div>

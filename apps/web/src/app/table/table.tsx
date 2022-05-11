@@ -1,24 +1,11 @@
 import styles from './table.module.scss'
-import { $enum } from 'ts-enum-util'
 import { useHistory } from 'react-router-dom'
+import { getCurrency } from '@magiclick/utils/helpers/currency'
 /* eslint-disable-next-line */
 export interface TableProps {
   data?: any[]
   searchString?: string
   selectedCurrency?: string
-}
-
-enum Currency {
-  'TRY' = 'Türk lirası',
-  'EUR' = 'Euro',
-  'USD' = 'Amerikan doları',
-  'GBP' = 'İngiliz Sterlini',
-}
-enum CurrencySymbol {
-  'TRY' = '₺',
-  'EUR' = '€',
-  'USD' = '$',
-  'GBP' = '£',
 }
 
 export function Table({ data, searchString, selectedCurrency }: TableProps) {
@@ -39,7 +26,7 @@ export function Table({ data, searchString, selectedCurrency }: TableProps) {
       <tbody>
         {data
           ?.filter(item => {
-            if (item?.name.includes(searchString)) return item
+            if (item?.name.toLowerCase().includes(searchString)) return item
             else if (
               item?.accountNumber
                 .toString()
@@ -51,7 +38,6 @@ export function Table({ data, searchString, selectedCurrency }: TableProps) {
             return null
           })
           .map(({ name, currency, accountNumber, id }, index) => {
-            console.log(selectedCurrency)
             if (selectedCurrency === 'Seçiniz' || selectedCurrency === '')
               return (
                 <tr
@@ -59,9 +45,9 @@ export function Table({ data, searchString, selectedCurrency }: TableProps) {
                   className={styles.row}
                   onClick={() => handleCLick(id)}
                 >
-                  <td>{$enum(CurrencySymbol).getValueOrDefault(currency)}</td>
+                  <td>{getCurrency(currency)?.sign}</td>
                   <td>{name}</td>
-                  <td>{$enum(Currency).getValueOrDefault(currency)}</td>
+                  <td>{getCurrency(currency)?.label}</td>
                   <td>{accountNumber}</td>
                 </tr>
               )
@@ -72,9 +58,9 @@ export function Table({ data, searchString, selectedCurrency }: TableProps) {
                   className={styles.row}
                   onClick={() => handleCLick(id)}
                 >
-                  <td>{$enum(CurrencySymbol).getValueOrDefault(currency)}</td>
+                  <td>{getCurrency(currency)?.sign}</td>
                   <td>{name}</td>
-                  <td>{$enum(Currency).getValueOrDefault(currency)}</td>
+                  <td>{getCurrency(currency)?.label}</td>
                   <td>{accountNumber}</td>
                 </tr>
               )

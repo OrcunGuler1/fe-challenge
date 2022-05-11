@@ -6,7 +6,7 @@ export interface ModalProps {
   isOpen: boolean
   children: React.ReactNode
   close: () => void
-  save?: () => void
+  save: () => void
   title: string
 }
 
@@ -23,7 +23,7 @@ export function Modal({ isOpen, close, children, save, title }: ModalProps) {
         </div>
         <div className={styles.modal_body}>{children}</div>
         <div className={styles.modal_footer}>
-          <Button onclick={() => save}>
+          <Button onclick={() => save()}>
             <span>
               <img src="./assets/aprove.svg" alt="approve" />
             </span>

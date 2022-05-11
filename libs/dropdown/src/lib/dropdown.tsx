@@ -14,7 +14,7 @@ export function Dropdown({ options, onChange }: DropdownProps) {
     >
       <option value={'Seçiniz'}>Seçiniz</option>
       {options
-        .filter(
+        ?.filter(
           (opt, ind, self) =>
             ind === self.findIndex(t => t.currency === opt.currency),
         )

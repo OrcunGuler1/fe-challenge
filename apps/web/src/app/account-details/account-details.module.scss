@@ -40,3 +40,23 @@
     margin: 0.2rem;
   }
 }
+
+.activity_header {
+  max-width: 720px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 1em;
+  width: 100%;
+  p {
+    &:first-child {
+      color: #fa4616;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    &:last-child {
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
+}
