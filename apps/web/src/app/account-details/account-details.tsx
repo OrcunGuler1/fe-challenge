@@ -6,10 +6,9 @@ import AccountActivity from '../account-activity/account-activity'
 import { getCurrency } from '@magiclick/utils/helpers/currency'
 import Modal from '../modal/modal'
 import { useState } from 'react'
-import { Input } from '@magiclick/input'
-import { Dropdown } from '@magiclick/dropdown'
 import { Axios as axios } from '../../main'
 import { Activity } from '@prisma/client'
+import DetailsModal from '../details-modal/details-modal'
 interface RouteParams {
   id: string
 }
@@ -19,10 +18,13 @@ export function AccountDetails() {
   const [{ data }] = useAxios('/account/' + id)
   const [{ data: activityData }] = useAxios('/activity')
   const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [date, setDate] = useState<string>('')
-  const [category, setCategory] = useState<string>('')
-  const [amount, setAmount] = useState<string>()
-  const handleSave = () => {
+
+  const handleSave = (data?: any[]) => {
+    axios
+      .post('/activity', {
+        ...data,
+      })
+      .then(data => console.log(data))
     setIsOpen(prev => !prev)
   }
   const history = useHistory()
@@ -76,9 +78,7 @@ export function AccountDetails() {
         save={() => handleSave()}
         title={'Yeni Hesap Hareketi'}
       >
-        <Input type="date" placeholder="Seçiniz" onChange={setDate} />
-        <Dropdown options={[]} onChange={setCategory} />
-        <Input type="text" placeholder="Tutar" onChange={setAmount} />
+        <DetailsModal />
       </Modal>
     </div>
   )

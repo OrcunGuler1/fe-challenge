@@ -12,7 +12,6 @@ export function Input({ onChange, placeholder, type }: InputProps) {
     <input
       className={styles.input}
       type={type}
-      style={{ width: '100%' }}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
     />

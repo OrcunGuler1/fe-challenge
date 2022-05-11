@@ -9,6 +9,7 @@ import Modal from '../modal/modal'
 import { Axios as axios } from '../../main'
 import { Account } from '@prisma/client'
 
+const currencyOpt: string[] = ['TRY', 'USD', 'GBP']
 export const AccountList = () => {
   const [{ data, loading }] = useAxios('/account')
   const [searchString, setSearchString] = useState('')
@@ -17,8 +18,10 @@ export const AccountList = () => {
   const [accountName, setAccountName] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const [accountCurrency, setAccountCurrency] = useState('Seçiniz')
+  const [options, setOptions] = useState<string[]>([])
   useEffect(() => {
     setAccounts(data)
+    setOptions(data.map((account: Account) => account.currency))
   }, [data])
   const handleSave = () => {
     axios
@@ -47,10 +50,9 @@ export const AccountList = () => {
           <div className={styles.header_component}>
             <p>Hesap Tipi </p>
             <Dropdown
-              options={accounts?.filter(
-                (opt: Account, ind: number, self: Account[]) =>
-                  ind ===
-                  self.findIndex((t: Account) => t.currency === opt.currency),
+              options={options?.filter(
+                (opt: string, ind: number, self: string[]): boolean | null =>
+                  ind === self.findIndex((t: string) => t === opt),
               )}
               onChange={setSelectedCurrency}
             />
@@ -87,15 +89,7 @@ export const AccountList = () => {
           </div>
           <div>
             <p>Tipi</p>
-            <Dropdown
-              options={[
-                { currency: 'TRY' },
-                { currency: 'GBP' },
-                { currency: 'USD' },
-                { currency: 'EUR' },
-              ]}
-              onChange={setAccountCurrency}
-            />
+            <Dropdown options={currencyOpt} onChange={setAccountCurrency} />
           </div>
         </div>
       </Modal>
