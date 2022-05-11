@@ -21,6 +21,7 @@ export function AccountDetails() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [date, setDate] = useState<string>('')
   const [category, setCategory] = useState<string>('')
+  const [amount, setAmount] = useState<string>()
   const handleSave = () => {
     setIsOpen(prev => !prev)
   }
@@ -77,6 +78,7 @@ export function AccountDetails() {
       >
         <Input type="date" placeholder="Seçiniz" onChange={setDate} />
         <Dropdown options={[]} onChange={setCategory} />
+        <Input type="text" placeholder="Tutar" onChange={setAmount} />
       </Modal>
     </div>
   )

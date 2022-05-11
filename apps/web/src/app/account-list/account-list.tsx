@@ -12,7 +12,7 @@ import { Account } from '@prisma/client'
 export const AccountList = () => {
   const [{ data, loading }] = useAxios('/account')
   const [searchString, setSearchString] = useState('')
-  const [accounts, setAccounts] = useState(data)
+  const [accounts, setAccounts] = useState<Account[]>(data)
   const [selectedCurrency, setSelectedCurrency] = useState('Seçiniz')
   const [accountName, setAccountName] = useState('')
   const [isOpen, setIsOpen] = useState(false)

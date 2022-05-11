@@ -1,7 +1,7 @@
 import styles from './dropdown.module.scss'
 /* eslint-disable-next-line */
 export interface DropdownProps {
-  options: Array<any>
+  options: any[]
   onChange: (value: string) => void
 }
 
@@ -13,12 +13,11 @@ export function Dropdown({ options, onChange }: DropdownProps) {
       className={styles.dropdown}
     >
       <option value={'Seçiniz'}>Seçiniz</option>
-      {options
-        ?.map((option, index) => (
-          <option key={index} id={option.currency}>
-            {option.currency}
-          </option>
-        ))}
+      {options?.map((option, index) => (
+        <option key={index} id={option.currency}>
+          {option.currency}
+        </option>
+      ))}
     </select>
   )
 }
