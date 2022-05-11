@@ -4,13 +4,14 @@ import { useState } from 'react'
 export interface InputProps {
   onChange: (value: string) => void
   placeholder?: string
+  type: string
 }
 
-export function Input({ onChange, placeholder }: InputProps) {
+export function Input({ onChange, placeholder, type }: InputProps) {
   return (
     <input
       className={styles.input}
-      type="text"
+      type={type}
       style={{ width: '100%' }}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}

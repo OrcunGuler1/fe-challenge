@@ -15,7 +15,7 @@ export const currencyList: CurrencyOption[] = [
   },
 ]
 
-export function getCurrency(value: CurrencyValue): CurrencyOption | undefined {
+export function getCurrency(value: string | CurrencyValue): CurrencyOption | undefined {
   return find(currency => currency.value === value, currencyList)
 }
 

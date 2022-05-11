@@ -2,20 +2,28 @@ import { Button } from '@magiclick/button'
 import styles from './account-details.module.scss'
 import { useHistory, useParams } from 'react-router-dom'
 import useAxios from 'axios-hooks'
-import { $enum } from 'ts-enum-util'
 import AccountActivity from '../account-activity/account-activity'
-import { getCurrency, getCurrencySign } from '@magiclick/utils/helpers/currency'
-/* eslint-disable-next-line */
-export interface AccountDetailsProps {}
+import { getCurrency } from '@magiclick/utils/helpers/currency'
+import Modal from '../modal/modal'
+import { useState } from 'react'
+import { Input } from '@magiclick/input'
+import { Dropdown } from '@magiclick/dropdown'
+import { Axios as axios } from '../../main'
+import { Activity } from '@prisma/client'
 interface RouteParams {
   id: string
 }
 
-export function AccountDetails(props: AccountDetailsProps) {
+export function AccountDetails() {
   const { id } = useParams<RouteParams>()
-  const [{ data, loading, error }, refetch] = useAxios('/account/' + id)
+  const [{ data }] = useAxios('/account/' + id)
   const [{ data: activityData }] = useAxios('/activity')
-
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [date, setDate] = useState<string>('')
+  const [category, setCategory] = useState<string>('')
+  const handleSave = () => {
+    setIsOpen(prev => !prev)
+  }
   const history = useHistory()
   const handleCLick = () => {
     history.push('/')
@@ -29,7 +37,7 @@ export function AccountDetails(props: AccountDetailsProps) {
           </span>
           Ana sayfa
         </Button>
-        <Button onclick={() => console.log('asd')}>
+        <Button onclick={() => setIsOpen(true)}>
           <span>
             <img src="/assets/cross.svg" alt="cross" />
           </span>
@@ -50,10 +58,9 @@ export function AccountDetails(props: AccountDetailsProps) {
       <div className={styles.activity_header}>
         <p>Hesap Hareketleri</p>
         <p>
-          {activityData?.filter((activity: any) => {
-            if (activity.accountId === Number(id)) {
-              return activity
-            }
+          {activityData?.filter((activity: Activity): Activity | undefined => {
+            if (activity.accountId === Number(id)) return activity
+            return undefined
           }).length + ' Sonuç'}
         </p>
       </div>
@@ -62,6 +69,15 @@ export function AccountDetails(props: AccountDetailsProps) {
         data={activityData}
         currency={data?.currency}
       />
+      <Modal
+        isOpen={isOpen}
+        close={() => setIsOpen(prev => !prev)}
+        save={() => handleSave()}
+        title={'Yeni Hesap Hareketi'}
+      >
+        <Input type="date" placeholder="Seçiniz" onChange={setDate} />
+        <Dropdown options={[]} onChange={setCategory} />
+      </Modal>
     </div>
   )
 }

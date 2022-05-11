@@ -3,11 +3,12 @@ import { DateTime } from 'luxon'
 import { getCurrency } from '@magiclick/utils/helpers/currency'
 import { CurrencyValue } from '@magiclick/utils/types/currency'
 import useAxios from 'axios-hooks'
+import { Activity } from '@prisma/client'
 /* eslint-disable-next-line */
 export interface ActivityItemProps {
-  item: any
+  item: Activity
   currency: CurrencyValue
-  categoryData: any
+  categoryData: string
 }
 
 export function ActivityItem({
@@ -15,7 +16,7 @@ export function ActivityItem({
   currency,
   categoryData,
 }: ActivityItemProps) {
-  const formatDate = (date: string) => {
+  const formatDate = (date: any) => {
     return DateTime.fromISO(date).toLocaleParts(DateTime.DATE_FULL)
   }
   return (

@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 1rem;
 }
 
 .inner_container {
@@ -24,7 +25,6 @@
 }
 
 .header_component {
-  margin: 1rem;
   display: flex;
   flex-direction: column;
   align-self: flex-end;

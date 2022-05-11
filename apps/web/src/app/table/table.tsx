@@ -1,10 +1,11 @@
 import styles from './table.module.scss'
 import { useHistory } from 'react-router-dom'
 import { getCurrency } from '@magiclick/utils/helpers/currency'
+import { Account } from '@prisma/client'
 /* eslint-disable-next-line */
 export interface TableProps {
-  data?: any[]
-  searchString?: string
+  data: Account[]
+  searchString: string
   selectedCurrency?: string
 }
 
