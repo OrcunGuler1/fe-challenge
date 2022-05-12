@@ -15,11 +15,16 @@ export const currencyList: CurrencyOption[] = [
   },
 ]
 
-export function getCurrency(value: string | CurrencyValue): CurrencyOption | undefined {
+export const getCurrency = (
+  value: string | CurrencyValue | undefined,
+): CurrencyOption | undefined => {
+  if (value === undefined) return 
   return find(currency => currency.value === value, currencyList)
 }
 
-export function getCurrencySign(value: CurrencyValue): string | undefined {
+export const getCurrencySign = (
+  value: CurrencyValue | string | undefined,
+): string | undefined => {
   const option = getCurrency(value)
   if (option) {
     return prop('sign', option)

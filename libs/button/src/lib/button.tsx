@@ -5,15 +5,16 @@ export interface ButtonProps {
   onclick: () => void
   disabled?: boolean
   type?: 'button' | 'submit' | 'reset'
-  [key: string]: any
 }
 
-export function Button({ onclick, children, type }: ButtonProps) {
-  return (
-    <button type={type} onClick={onclick} className={styles.button}>
-      {children}
-    </button>
-  )
-}
+export const Button = ({ onclick, children, type }: ButtonProps) => (
+  <button
+    data-testId={'button'}
+    type={type}
+    onClick={onclick}
+    className={styles.button}
+    children={children}
+  />
+)
 
 export default Button

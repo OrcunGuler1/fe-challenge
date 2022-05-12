@@ -24,6 +24,7 @@ export class CategoryService {
       orderBy: { createdAt: 'desc' },
     })
   }
+
   async detail(id: number): Promise<CategoryEntity> {
     return this.prisma.category.findFirst({ where: { id: id } })
   }

@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 16px;
+  margin-bottom: 1rem;
   p {
     font-weight: 500;
     font-size: 16px;
@@ -27,8 +28,41 @@
   }
 }
 
+.radio {
+  width: 13px;
+  height: 13px;
+  border: white 1px solid;
+  &:checked {
+    accent-color: #008000;
+  }
+  &:focus {
+    outline: none;
+  }
+}
 .bottom_content {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  max-width: 147px;
+  p {
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
+  .radio_container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 147px;
+    .radio_styles {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin-left: 0.7rem;
+      margin-top: 0.5rem;
+      label {
+        font-size: 11px;
+        font-weight: 500;
+        color: #636363;
+      }
+    }
+  }
+}
+
+.input_styles {
+  min-height: 48px;
 }

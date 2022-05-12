@@ -1,9 +1,8 @@
 export enum CategoryType {
-  MARKET = 'Market',
-  INCOME = 'Gelir',
-  TRANSACTION = 'İşlem',
-  EXPENSE = 'Gider',
-  OTHER = 'Diğer',
+  'Gelir' = 1,
+  'Gider' = 2,
+  'Market' = 3,
+  'Diğer' = 4,
 }
 
 export type CategoryOption = {

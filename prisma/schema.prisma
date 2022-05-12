@@ -11,21 +11,21 @@ model Account {
   id            Int        @id @default(autoincrement())
   name          String
   currency      String
-  accountNumber Int        @default(000000)
+  accountNumber Int        @default(0)
   createdAt     DateTime?  @default(now())
   activities    Activity[]
 }
 
 model Activity {
-  id          Int      @id @default(autoincrement())
-  account     Account  @relation(fields: [accountId], references: [id])
+  id          Int       @id @default(autoincrement())
   accountId   Int
   description String
   amount      Float
   type        Int
-  createdAt   DateTime
-  category    Category @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime? @default(now())
   categoryId  Int
+  account     Account   @relation(fields: [accountId], references: [id])
+  category    Category  @relation(fields: [categoryId], references: [id])
 }
 
 model Category {

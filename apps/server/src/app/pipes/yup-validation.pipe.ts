@@ -11,6 +11,7 @@ export class YupValidationPipe implements PipeTransform {
   constructor(private readonly schema: AnyObjectSchema) {}
 
   async transform(value, metadata: ArgumentMetadata) {
+    console.log(value,metadata)
     try {
       if (metadata.type === 'body' && this.schema) {
         await this.schema.validate(value, {

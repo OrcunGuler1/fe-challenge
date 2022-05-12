@@ -2,6 +2,7 @@ import styles from './table.module.scss'
 import { useHistory } from 'react-router-dom'
 import { getCurrency } from '@magiclick/utils/helpers/currency'
 import { Account } from '@prisma/client'
+import { memo } from 'react'
 /* eslint-disable-next-line */
 export interface TableProps {
   data: Account[]
@@ -72,4 +73,4 @@ export function Table({ data, searchString, selectedCurrency }: TableProps) {
   )
 }
 
-export default Table
+export default memo(Table)

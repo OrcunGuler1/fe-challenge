@@ -1,30 +1,49 @@
 import styles from './details-modal.module.scss'
-import { useState } from 'react'
 import { Input } from '@magiclick/input'
 import { Dropdown } from '@magiclick/dropdown'
-/* eslint-disable-next-line */
-export interface DetailsModalProps {}
-const options: string[] = ['Market', 'Gelir', 'Gider', 'Diğer']
+import { memo } from 'react'
+import useAxios from 'axios-hooks'
+import { Category } from '@prisma/client'
+export interface DetailsModalProps {
+  setters: {
+    setDescription: (value: string) => void
+    setCategory: (value: string) => void
+    setAmount: (value: number) => void
+    setType: (value: number) => void
+    formatDate: (value: string) => void
+  }
+}
 export function DetailsModal(props: DetailsModalProps) {
-  const [date, setDate] = useState<string>('')
-  const [category, setCategory] = useState<string>('')
-  const [amount, setAmount] = useState<string>()
-  const [description, setDescription] = useState<string>()
-  const [type, setType] = useState<number | string>()
+  const [{ data }] = useAxios('/category')
+  const { formatDate, setCategory, setDescription, setAmount, setType } =
+    props.setters
   return (
     <>
       <div className={styles.top_content}>
         <div className={styles.top_content_left}>
           <p>Tarih</p>
-          <Input type="date" placeholder="Seçiniz" onChange={setDate} />
+          <Input
+            type="date"
+            placeholder="Seçiniz"
+            onChange={formatDate}
+            classname={styles.input_styles}
+          />
         </div>
         <div className={styles.top_content_middle}>
           <p>Kategori</p>
-          <Dropdown options={options} onChange={setCategory} />
+          <Dropdown
+            options={data?.map((category: Category) => category.type)}
+            onChange={setCategory}
+          />
         </div>
         <div className={styles.top_content_right}>
           <p>Tutar</p>
-          <Input type="text" placeholder="Tutar" onChange={setAmount} />
+          <Input
+            type="text"
+            placeholder="Tutar"
+            onChange={setAmount}
+            classname={styles.input_styles}
+          />
         </div>
       </div>
       <div className={styles.middle_content}>
@@ -35,11 +54,34 @@ export function DetailsModal(props: DetailsModalProps) {
         />
       </div>
       <div className={styles.bottom_content}>
-        <Input type="radio" placeholder="Gelir" onChange={setType} />
-        <Input type="radio" placeholder="Gider" onChange={setType} />
+        <p>Hareket türü</p>
+        <div className={styles.radio_container}>
+          <div className={styles.radio_styles}>
+            <Input
+              classname={styles.radio}
+              id="income"
+              type="radio"
+              placeholder="Gelir"
+              onChange={() => setType(1)}
+              name="type"
+            />
+            <label htmlFor="income">Gelir</label>
+          </div>
+          <div className={styles.radio_styles}>
+            <Input
+              classname={styles.radio}
+              id="expense"
+              type="radio"
+              placeholder="Gider"
+              onChange={() => setType(0)}
+              name="type"
+            />
+            <label htmlFor="expense">Gider</label>
+          </div>
+        </div>
       </div>
     </>
   )
 }
 
-export default DetailsModal
+export default memo(DetailsModal)

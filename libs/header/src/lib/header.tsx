@@ -1,10 +1,3 @@
-import styles from './header.module.scss';
-
-/* eslint-disable-next-line */
-export interface HeaderProps {}
-
-export function Header(props: HeaderProps) {
-  return <div className={styles.header} />;
-}
-
-export default Header;
+import styles from './header.module.scss'
+export const Header = () => <div className={styles.header} />
+export default Header

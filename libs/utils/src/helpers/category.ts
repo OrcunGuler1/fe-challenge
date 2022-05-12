@@ -2,13 +2,14 @@ import { CategoryType, CategoryOption } from '../types/category'
 import { find } from 'rambdax'
 
 export const categoryList: CategoryOption[] = [
-  { type: CategoryType.MARKET, label: 'Market' },
-  { type: CategoryType.INCOME, label: 'Gelir' },
-  { type: CategoryType.TRANSACTION, label: 'İşlem' },
-  { type: CategoryType.EXPENSE, label: 'Gider' },
-  { type: CategoryType.OTHER, label: 'Diğer' },
+  { type: CategoryType['Market'], label: 'Market' },
+  { type: CategoryType['Gelir'], label: 'Gelir' },
+  { type: CategoryType['Gider'], label: 'Gider' },
+  { type: CategoryType['Diğer'], label: 'Diğer' },
 ]
 
-export function getCategory(value: CategoryType): CategoryOption | undefined {
+export const getCategory = (
+  value: CategoryType,
+): CategoryOption | undefined => {
   return find(category => category.type === value, categoryList)
 }

@@ -1,4 +1,5 @@
 import { Button } from '@magiclick/button'
+import { memo } from 'react'
 import styles from './modal.module.scss'
 
 /* eslint-disable-next-line */
@@ -35,4 +36,4 @@ export function Modal({ isOpen, close, children, save, title }: ModalProps) {
   )
 }
 
-export default Modal
+export default memo(Modal)

@@ -3,36 +3,69 @@ import styles from './account-details.module.scss'
 import { useHistory, useParams } from 'react-router-dom'
 import useAxios from 'axios-hooks'
 import AccountActivity from '../account-activity/account-activity'
-import { getCurrency } from '@magiclick/utils/helpers/currency'
+import { getCurrency, getCurrencySign } from '@magiclick/utils/helpers/currency'
 import Modal from '../modal/modal'
-import { useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { Axios as axios } from '../../main'
-import { Activity } from '@prisma/client'
 import DetailsModal from '../details-modal/details-modal'
+import Flag from '../flag/flag'
+import { $enum } from 'ts-enum-util'
+import { DateTime } from 'luxon'
+import { CategoryType } from '@magiclick/utils/types/category'
+import { Account, Activity } from '@prisma/client'
+import { CurrencyValue } from '@magiclick/utils/types/currency'
+
 interface RouteParams {
   id: string
 }
 
-export function AccountDetails() {
+export const AccountDetails = () => {
   const { id } = useParams<RouteParams>()
-  const [{ data }] = useAxios('/account/' + id)
-  const [{ data: activityData }] = useAxios('/activity')
+  const [{ data }] = useAxios<Account>('/account/' + id)
+  const [{ data: activityData }] = useAxios('/activity/' + id)
+  const [activities, setActivities] = useState<Activity[]>(activityData)
   const [isOpen, setIsOpen] = useState<boolean>(false)
-
-  const handleSave = (data?: any[]) => {
+  const [date, setDate] = useState<string>('')
+  const [category, setCategory] = useState<string>('')
+  const [amount, setAmount] = useState<number>(0)
+  const [description, setDescription] = useState<string>('')
+  const [type, setType] = useState<number>(0)
+  const formatDate = (date: string) => {
+    const dateTime = DateTime.fromFormat(date, 'yyyy-mm-dd').toISO()
+    setDate(dateTime)
+  }
+  const setters = {
+    setAmount,
+    formatDate,
+    setCategory,
+    setDescription,
+    setType,
+  }
+  useEffect(() => {
+    setActivities(activityData)
+  }, [activityData])
+  const handleSave = () => {
     axios
       .post('/activity', {
-        ...data,
+        accountId: Number(id),
+        description: description,
+        amount: Number(amount),
+        type: Number(type),
+        createdAt: new Date(date),
+        categoryId: $enum(CategoryType).getValueOrDefault(category),
       })
-      .then(data => console.log(data))
-    setIsOpen(prev => !prev)
+      .then((data: any) => {
+        setActivities(prev => [...prev, data])
+        setIsOpen(prev => !prev)
+      })
+      .catch(err => console.log(err))
   }
   const history = useHistory()
   const handleCLick = () => {
     history.push('/')
   }
   return (
-    <div className={styles.container}>
+    <div data-testId="container" className={styles.container}>
       <div className={styles.header_container}>
         <Button onclick={handleCLick}>
           <span>
@@ -48,37 +81,34 @@ export function AccountDetails() {
         </Button>
       </div>
       <div className={styles.account}>
-        <img src="/assets/TR.svg" alt="eur-flag" />
+        <Flag currency={data?.currency} />
         <div className={styles.account_info_container}>
           <p>{data?.name}</p>
           <span className={styles.account_info}>
             <p>{data?.accountNumber} - </p>
             <p>{getCurrency(data?.currency)?.label}</p>
-            <p>({getCurrency(data?.currency)?.sign})</p>
+            <p>({getCurrencySign(data?.currency)})</p>
           </span>
         </div>
       </div>
       <div className={styles.activity_header}>
         <p>Hesap Hareketleri</p>
-        <p>
-          {activityData?.filter((activity: Activity): Activity | undefined => {
-            if (activity.accountId === Number(id)) return activity
-            return undefined
-          }).length + ' Sonuç'}
-        </p>
+        <p>{activities?.length + ' Sonuç'}</p>
       </div>
-      <AccountActivity
-        id={data?.id}
-        data={activityData}
-        currency={data?.currency}
-      />
+      {activities?.map((activity: Activity) => (
+        <AccountActivity
+          id={activity.categoryId}
+          data={activity}
+          currency={data ? data.currency : CurrencyValue.TRY}
+        />
+      ))}
       <Modal
         isOpen={isOpen}
         close={() => setIsOpen(prev => !prev)}
         save={() => handleSave()}
         title={'Yeni Hesap Hareketi'}
       >
-        <DetailsModal />
+        <DetailsModal setters={setters} />
       </Modal>
     </div>
   )

@@ -1,21 +1,36 @@
+import { memo } from 'react'
 import styles from './input.module.scss'
-import { useState } from 'react'
 /* eslint-disable-next-line */
 export interface InputProps {
-  onChange: (value: string) => void
+  onChange: (value: any) => void
   placeholder?: string
   type: string
+  name?: string
+  id?: string
+  classname?: string
+  checked?: boolean
 }
 
-export function Input({ onChange, placeholder, type }: InputProps) {
+export const Input = ({
+  onChange,
+  placeholder,
+  type,
+  name,
+  id,
+  classname,
+  checked,
+}: InputProps) => {
   return (
     <input
-      className={styles.input}
+      checked={checked}
+      id={id}
+      className={classname}
       type={type}
       onChange={e => onChange(e.target.value)}
       placeholder={placeholder}
+      name={name}
     />
   )
 }
 
-export default Input
+export default memo(Input)

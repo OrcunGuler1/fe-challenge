@@ -8,7 +8,7 @@ import { memo, useEffect, useState } from 'react'
 import Modal from '../modal/modal'
 import { Axios as axios } from '../../main'
 import { Account } from '@prisma/client'
-
+import AccountAddModal from '../account-add-modal/account-add-modal'
 const currencyOpt: string[] = ['TRY', 'USD', 'GBP']
 export const AccountList = () => {
   const [{ data, loading }] = useAxios('/account')
@@ -21,7 +21,7 @@ export const AccountList = () => {
   const [options, setOptions] = useState<string[]>([])
   useEffect(() => {
     setAccounts(data)
-    setOptions(data.map((account: Account) => account.currency))
+    setOptions(data?.map((account: Account) => account.currency))
   }, [data])
   const handleSave = () => {
     axios
@@ -30,7 +30,7 @@ export const AccountList = () => {
         currency: accountCurrency,
       })
       .then(data => {
-        setAccounts((prev: Account[]) => [...prev, data.data])
+        setAccounts((prev: Account[]) => [data.data, ...prev])
       })
     setIsOpen(false)
   }
@@ -43,6 +43,7 @@ export const AccountList = () => {
             <p>Arama</p>
             <Input
               type="text"
+              classname={styles.search}
               onChange={setSearchString}
               placeholder={'Hesap No veya Hesap Adı ile arayın...'}
             />
@@ -78,20 +79,10 @@ export const AccountList = () => {
         title="Yeni Hesap Ekle"
         save={() => handleSave()}
       >
-        <div className={styles.add_account_modal}>
-          <div>
-            <p>Adı</p>
-            <Input
-              onChange={setAccountName}
-              placeholder={'Hesap adı girin'}
-              type="text"
-            />
-          </div>
-          <div>
-            <p>Tipi</p>
-            <Dropdown options={currencyOpt} onChange={setAccountCurrency} />
-          </div>
-        </div>
+        <AccountAddModal
+          setAccountCurrency={setAccountCurrency}
+          setAccountName={setAccountName}
+        />
       </Modal>
     </div>
   )

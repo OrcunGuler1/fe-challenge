@@ -7,7 +7,7 @@ import { Activity } from '@prisma/client'
 /* eslint-disable-next-line */
 export interface ActivityItemProps {
   item: Activity
-  currency: CurrencyValue
+  currency: CurrencyValue | string
   categoryData: string
 }
 
@@ -22,17 +22,17 @@ export function ActivityItem({
   return (
     <div className={styles.container}>
       <div className={styles.date}>
-        <p>{formatDate(item.createdAt)[0].value}</p>
-        <p>{formatDate(item.createdAt)[2].value}</p>
+        <p>{formatDate(item?.createdAt)[0]?.value}</p>
+        <p>{formatDate(item?.createdAt)[2]?.value}</p>
       </div>
       <div className={styles.details}>
         <div className={styles.details_container}>
-          <p>{item.description}</p>
-          <p>{categoryData}</p>
+          <p data-testId="desc">{item?.description}</p>
+          <p data-testId="category">{categoryData}</p>
         </div>
-        <p className={item.type === 0 ? styles.red : styles.green}>
-          {item.type === 0 ? '-' : '+'}
-          {item.amount}
+        <p className={item?.type === 0 ? styles.red : styles.green}>
+          {item?.type === 0 ? '-' : '+'}
+          {item?.amount}
           <span>{getCurrency(currency)?.sign}</span>
         </p>
       </div>

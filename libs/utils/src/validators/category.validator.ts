@@ -3,10 +3,11 @@ import { CategoryType } from '../types/category'
 
 export const CategoryCreateSchema = yup.object().shape({
   type: yup
-    .string()
+    .number()
     .oneOf([
-      CategoryType.MARKET,
-      CategoryType.INCOME,
-      CategoryType.TRANSACTION,
+      CategoryType['Market'],
+      CategoryType['Gider'],
+      CategoryType['Gelir'],
+      CategoryType['Diğer'],
     ]),
 })
